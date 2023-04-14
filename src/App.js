@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import AddItem from './components/AddItem'
+import ItemList from './components/ItemList'
 
-function App() {
+
+
+
+const App = () => {
+
+  const [itemsList, setItemsList] = useState([{ name: 'finish word', color: '#fff', id: '1'}])
+
+
+  const addItemHandler = (item) => {
+    setItemsList(prev => {
+      return [...prev, item];
+    })
+  }
+
+  const deleteItemHandler = (item) => {
+
+    const filteredItems = itemsList.filter((currItem) => {
+       return item.id !== currItem.id;
+    })
+
+    setItemsList(filteredItems)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <React.Fragment>
+    
+    <div style={{display: 'flex', justifyContent:'center'}}>
+      <AddItem onAdd={addItemHandler} />
     </div>
-  );
+    <div style={{display: 'flex', justifyContent:'center'}}>
+    <ItemList items={itemsList}  onDelete={deleteItemHandler}/>
+    </div>
+    </React.Fragment>
+  )
 }
 
-export default App;
+export default App
